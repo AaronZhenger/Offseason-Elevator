@@ -22,6 +22,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import team5427.frc.robot.subsystems.Swerve.DrivingConstants;
 import team5427.frc.robot.subsystems.Swerve.SwerveConstants;
+import team5427.frc.robot.subsystems.elevator.ElevatorConstants;
 import team5427.frc.robot.subsystems.intake.IntakeConstants;
 import team5427.frc.robot.subsystems.vision.io.QuestNav;
 import team5427.lib.drivers.JoystickLogger;
@@ -45,7 +46,7 @@ public class Robot extends LoggedRobot {
   @SuppressWarnings("resource")
   public Robot() {
 
-    Logger.recordMetadata("Reefscape", "Steel Talons 5427 Robot Code for the Game Reefscape, 2025");
+    Logger.recordMetadata("2026 Offseason Elevator", "Steel Talons 5427 Robot Code for the 2026 Offseason");
     Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
 
     if (RobotBase.isReal()) {
@@ -91,6 +92,7 @@ public class Robot extends LoggedRobot {
     System.out.println(SwerveConstants.class);
     System.out.println(IntakeConstants.class);
     System.out.println(DrivingConstants.class);
+    System.out.println(ElevatorConstants.class);
     // loading a random LoggedTunableNumber
     System.out.println(DrivingConstants.kRotationKp);
     System.out.println(Superstructure.class);
@@ -144,12 +146,12 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      CommandScheduler.getInstance().schedule(m_autonomousCommand);
-    }
+    // // schedule the autonomous command (example)
+    // if (m_autonomousCommand != null) {
+    //   CommandScheduler.getInstance().schedule(m_autonomousCommand);
+    // }
     System.out.println("Switched to Auton");
   }
 

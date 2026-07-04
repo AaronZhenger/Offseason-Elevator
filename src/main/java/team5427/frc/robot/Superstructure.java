@@ -17,6 +17,9 @@ public final class Superstructure {
   private static IntakeStates kSelectedIntakeState = IntakeStates.STOWED;
   private static IntakeStates kPreviousIntakeState = IntakeStates.STOWED;
 
+  private static ElevatorStates kSelectedElevatorState = ElevatorStates.STOWED;
+  private static ElevatorStates kPreviousElevatorState = ElevatorStates.DISABLED;
+
   // Swerve States Enum
   public static enum SwerveStates {
     RAW_DRIVING,
@@ -35,6 +38,14 @@ public final class Superstructure {
     OUTAKING
   }
 
+  // Elevator States Enum
+  public static enum ElevatorStates {
+    STOWED,
+    SETPOINT1,
+    SETPOINT2,
+    DISABLED
+  }
+
   // Getter Methods
 
   public static synchronized SwerveStates getSelectedSwerveState() {
@@ -51,6 +62,14 @@ public final class Superstructure {
 
   public static synchronized IntakeStates getPreviousIntakeState() {
     return kPreviousIntakeState;
+  }
+
+  public static synchronized ElevatorStates getSelectedElevatorState() {
+    return kSelectedElevatorState;
+  }
+
+  public static synchronized ElevatorStates getPreviousElevatorState() {
+    return kPreviousElevatorState;
   }
 
   // State Request Methods
@@ -85,6 +104,21 @@ public final class Superstructure {
     }
   }
 
+  /**
+   * Allows you to request a new Intake State and if it is different than the current one, the
+   * current and previous state will be replaced accordingly.
+   *
+   * @param newState The ElevatorState that you are requesting
+   */
+  public static synchronized void requestElevatorState(ElevatorStates newState) {
+    if (kSelectedElevatorState != newState) {
+      kPreviousElevatorState = kSelectedElevatorState;
+      kSelectedElevatorState = newState;
+      Logger.recordOutput(dashboardKey + "/ElevatorState", newState.toString());
+      Logger.recordOutput(dashboardKey + "/PreviousElevatorState", kPreviousElevatorState.toString());
+    }
+  }
+
   // Command factories return command that change state
   /**
    * Builds a {@link Command} that switches the swerve subsystem to the supplied state.
@@ -106,6 +140,17 @@ public final class Superstructure {
   public static synchronized Command setIntakeStateCommand(IntakeStates state) {
     return Commands.runOnce(() -> requestIntakeState(state))
         .withName("SetIntakeState(" + state.toString() + ")");
+  }
+
+  /**
+   * Builds a {@link Command} that switches the elevator subsystem to the supplied state.
+   *
+   * @param state Desired {@link ElevatorStates} target.
+   * @return One-shot command that applies the new state.
+   */
+  public static synchronized Command setElevatorStateCommand(ElevatorStates state) {
+    return Commands.runOnce(() -> requestElevatorState(state))
+        .withName("SetElevatorState(" + state.toString() + ")");
   }
 
   // Trigger factory creates trigger for any state condition
@@ -163,6 +208,33 @@ public final class Superstructure {
         });
   }
 
+  /**
+   * Creates a trigger that is active when the current intake state equals the supplied state.
+   *
+   * @param state State to compare against the currently selected elevator state.
+   * @return Trigger that reflects the state match.
+   */
+  public static synchronized Trigger elevatorStateIs(ElevatorStates state) {
+    return new Trigger(() -> kSelectedElevatorState == state);
+  }
+
+  /**
+   * Creates a trigger that is active when the current elevator state matches any of the supplied
+   * states.
+   *
+   * @param states Acceptable {@link ElevatorStates} values.
+   * @return Trigger that fires while the current state is any of the provided values.
+   */
+  public static synchronized Trigger elevatorStateIsAnyOf(ElevatorStates... states) {
+    return new Trigger(
+        () -> {
+          for (ElevatorStates state : states) {
+            if (kSelectedElevatorState == state) return true;
+          }
+          return false;
+        });
+  }
+
   // Transition Triggers detect state changes
 
   /**
@@ -203,6 +275,26 @@ public final class Superstructure {
    */
   public static synchronized Trigger intakeStateChangedFrom(IntakeStates state) {
     return new Trigger(() -> kPreviousIntakeState == state && kSelectedIntakeState != state);
+  }
+
+  /**
+   * Trigger that becomes active the first cycle a new elevator state is selected.
+   *
+   * @param state Destination state to monitor.
+   * @return Trigger that detects the transition into the supplied state.
+   */
+  public static synchronized Trigger elevatorStateChangedTo(ElevatorStates state) {
+    return new Trigger(() -> kSelectedElevatorState == state && kPreviousElevatorState != state);
+  }
+
+  /**
+   * Trigger that becomes active when a previously selected elevator state is exited.
+   *
+   * @param state Source state to monitor.
+   * @return Trigger that detects the transition away from the supplied state.
+   */
+  public static synchronized Trigger elevatorStateChangedFrom(ElevatorStates state) {
+    return new Trigger(() -> kPreviousElevatorState == state && kSelectedElevatorState != state);
   }
 
   // Compound - Combine multiple conditions
@@ -255,8 +347,10 @@ public final class Superstructure {
   public static synchronized void logStates() {
     Logger.recordOutput(dashboardKey + "/SwerveState", kSelectedSwerveState.toString());
     Logger.recordOutput(dashboardKey + "/IntakeState", kSelectedIntakeState.toString());
+    Logger.recordOutput(dashboardKey + "/ElevatorState", kSelectedElevatorState.toString());
     Logger.recordOutput(dashboardKey + "/PreviousSwerveState", kPreviousSwerveState.toString());
     Logger.recordOutput(dashboardKey + "/PreviousIntakeState", kPreviousIntakeState.toString());
+    Logger.recordOutput(dashboardKey + "/PreviousElevatorState", kPreviousElevatorState.toString());
   }
 
   // Static Trigger Constants
@@ -275,5 +369,12 @@ public final class Superstructure {
     public static final Trigger kDisabled = intakeStateIs(IntakeStates.DISABLED);
     public static final Trigger kStowed = intakeStateIs(IntakeStates.STOWED);
     public static final Trigger kOutaking = intakeStateIs(IntakeStates.OUTAKING);
+  }
+
+  public static final class ElevatorTriggers {
+    public static final Trigger kStowed = elevatorStateIs(ElevatorStates.STOWED);
+    public static final Trigger kDisabled = elevatorStateIs(ElevatorStates.DISABLED);
+    public static final Trigger kSetpoint1 = elevatorStateIs(ElevatorStates.SETPOINT1);
+    public static final Trigger kSetpoint2 = elevatorStateIs(ElevatorStates.SETPOINT2);
   }
 }
