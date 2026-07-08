@@ -15,6 +15,7 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Voltage;
 import team5427.frc.robot.Constants;
 import team5427.frc.robot.subsystems.elevator.ElevatorConstants;
+import team5427.lib.motors.MotorConfiguration;
 import team5427.lib.motors.SteelTalonFX;
 
 public class ElevatorIOTalonFX implements ElevatorIO {
@@ -40,10 +41,15 @@ public class ElevatorIOTalonFX implements ElevatorIO {
     followerMotor = new SteelTalonFX(ElevatorConstants.kFollowerMotorID);
 
     leaderMotor.apply(ElevatorConstants.kElevatorMotorConfiguration);
+    followerMotor.apply(new MotorConfiguration(ElevatorConstants.kElevatorMotorConfiguration));
+
+    leaderMotor.useTorqueCurrentFOC(true);
+    followerMotor.useTorqueCurrentFOC(true);
+
     followerMotor
         .getTalonFX()
         .setControl(
-            new Follower(leaderMotor.getTalonFX().getDeviceID(), MotorAlignmentValue.Aligned));
+            new Follower(leaderMotor.getTalonFX().getDeviceID(), MotorAlignmentValue.Opposed));
 
     leaderMotor.setEncoderPosition(ElevatorConstants.kElevatorStowPosition.in(Meters));
 
