@@ -115,7 +115,8 @@ public final class Superstructure {
       kPreviousElevatorState = kSelectedElevatorState;
       kSelectedElevatorState = newState;
       Logger.recordOutput(dashboardKey + "/ElevatorState", newState.toString());
-      Logger.recordOutput(dashboardKey + "/PreviousElevatorState", kPreviousElevatorState.toString());
+      Logger.recordOutput(
+          dashboardKey + "/PreviousElevatorState", kPreviousElevatorState.toString());
     }
   }
 

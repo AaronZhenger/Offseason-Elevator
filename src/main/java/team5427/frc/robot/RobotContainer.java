@@ -4,32 +4,14 @@
 
 package team5427.frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.util.PathPlannerLogging;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import org.ironmaple.simulation.SimulatedArena;
-import org.littletonrobotics.junction.Logger;
 import team5427.frc.robot.Constants.DriverConstants;
 import team5427.frc.robot.io.DriverProfiles;
 import team5427.frc.robot.io.OperatorControls;
-import team5427.frc.robot.io.PilotingControls;
-import team5427.frc.robot.subsystems.Swerve.DrivingConstants;
-import team5427.frc.robot.subsystems.Swerve.SwerveSubsystem;
 import team5427.frc.robot.subsystems.elevator.ElevatorSubsystem;
-import team5427.frc.robot.subsystems.intake.IntakeSubsystem;
-import team5427.frc.robot.subsystems.vision.VisionSubsystem;
-import team5427.frc.robot.subsystems.vision.io.QuestNav;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

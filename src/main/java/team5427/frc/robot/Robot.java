@@ -46,7 +46,8 @@ public class Robot extends LoggedRobot {
   @SuppressWarnings("resource")
   public Robot() {
 
-    Logger.recordMetadata("2026 Offseason Elevator", "Steel Talons 5427 Robot Code for the 2026 Offseason");
+    Logger.recordMetadata(
+        "2026 Offseason Elevator", "Steel Talons 5427 Robot Code for the 2026 Offseason");
     Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
 
     if (RobotBase.isReal()) {

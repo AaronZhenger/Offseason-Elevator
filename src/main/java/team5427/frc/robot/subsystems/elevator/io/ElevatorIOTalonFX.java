@@ -120,15 +120,21 @@ public class ElevatorIOTalonFX implements ElevatorIO {
         followerMotorVoltage);
 
     inputs.leaderMotorDistance = Meters.of(leaderMotor.getEncoderPosition(leaderMotorAngle));
-    inputs.leaderMotorLinearVelocity = MetersPerSecond.of(leaderMotor.getEncoderVelocity(leaderMotorAngularVelocity));
-    inputs.leaderMotorLinearAcceleration = MetersPerSecondPerSecond.of(leaderMotor.getEncoderAcceleration(leaderMotorAngularAcceleration));
+    inputs.leaderMotorLinearVelocity =
+        MetersPerSecond.of(leaderMotor.getEncoderVelocity(leaderMotorAngularVelocity));
+    inputs.leaderMotorLinearAcceleration =
+        MetersPerSecondPerSecond.of(
+            leaderMotor.getEncoderAcceleration(leaderMotorAngularAcceleration));
 
     inputs.leaderMotorCurrent = leaderMotorCurrent.getValue();
     inputs.leaderMotorVoltage = leaderMotorVoltage.getValue();
 
     inputs.followerMotorDistance = Meters.of(followerMotor.getEncoderPosition(followerMotorAngle));
-    inputs.followerMotorLinearVelocity = MetersPerSecond.of(followerMotor.getEncoderVelocity(followerMotorAngularVelocity));
-    inputs.followerMotorLinearAcceleration = MetersPerSecondPerSecond.of(followerMotor.getEncoderAcceleration(followerMotorAngularAcceleration));
+    inputs.followerMotorLinearVelocity =
+        MetersPerSecond.of(followerMotor.getEncoderVelocity(followerMotorAngularVelocity));
+    inputs.followerMotorLinearAcceleration =
+        MetersPerSecondPerSecond.of(
+            followerMotor.getEncoderAcceleration(followerMotorAngularAcceleration));
 
     inputs.followerMotorCurrent = followerMotorCurrent.getValue();
     inputs.followerMotorVoltage = followerMotorVoltage.getValue();

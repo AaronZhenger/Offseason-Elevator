@@ -1,16 +1,11 @@
 package team5427.frc.robot.io;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import team5427.frc.robot.Constants.DriverConstants;
 import team5427.frc.robot.Superstructure;
 import team5427.frc.robot.Superstructure.ElevatorStates;
-import team5427.frc.robot.Superstructure.IntakeStates;
 import team5427.frc.robot.commands.elevator.MoveElevatorToPosition;
-import team5427.frc.robot.commands.intake.IntakeIntaking;
-import team5427.frc.robot.commands.intake.IntakeStowed;
 import team5427.frc.robot.subsystems.elevator.ElevatorConstants;
-import team5427.frc.robot.subsystems.intake.IntakeSubsystem;
 
 public class OperatorControls {
   private CommandXboxController joy;
@@ -34,7 +29,8 @@ public class OperatorControls {
 
     // // Use class-level trigger factory methods instead of nested class references
     // Superstructure.intakeStateIs(IntakeStates.INTAKING)
-    //     .and(Superstructure.swerveStateIs(Superstructure.SwerveStates.INTAKE_ASSISTANCE).negate())
+    //
+    // .and(Superstructure.swerveStateIs(Superstructure.SwerveStates.INTAKE_ASSISTANCE).negate())
     //     .whileTrue(new IntakeIntaking());
 
     // Superstructure.intakeStateIs(IntakeStates.STOWED).whileTrue(new IntakeStowed());
@@ -53,17 +49,17 @@ public class OperatorControls {
     //               IntakeSubsystem.getInstance().disablePivotMotor(false);
     //               IntakeSubsystem.getInstance().disableRollerMotor(false);
     //             }));
-    joy.a()
-          .onTrue(Superstructure.setElevatorStateCommand(ElevatorStates.SETPOINT1));
+    joy.a().onTrue(Superstructure.setElevatorStateCommand(ElevatorStates.SETPOINT1));
 
-    joy.b()
-          .onTrue(Superstructure.setElevatorStateCommand(ElevatorStates.SETPOINT2));
+    joy.b().onTrue(Superstructure.setElevatorStateCommand(ElevatorStates.SETPOINT2));
 
-    joy.povDown()
-          .onTrue(Superstructure.setElevatorStateCommand(ElevatorStates.STOWED));
+    joy.povDown().onTrue(Superstructure.setElevatorStateCommand(ElevatorStates.STOWED));
 
-    Superstructure.elevatorStateIs(ElevatorStates.SETPOINT1).whileTrue(new MoveElevatorToPosition(ElevatorConstants.kElevatorSetpoint1));
-    Superstructure.elevatorStateIs(ElevatorStates.SETPOINT2).whileTrue(new MoveElevatorToPosition(ElevatorConstants.kElevatorSetpoint2));
-    Superstructure.elevatorStateIs(ElevatorStates.STOWED).whileTrue(new MoveElevatorToPosition(ElevatorConstants.kElevatorStowPosition));
+    Superstructure.elevatorStateIs(ElevatorStates.SETPOINT1)
+        .whileTrue(new MoveElevatorToPosition(ElevatorConstants.kElevatorSetpoint1));
+    Superstructure.elevatorStateIs(ElevatorStates.SETPOINT2)
+        .whileTrue(new MoveElevatorToPosition(ElevatorConstants.kElevatorSetpoint2));
+    Superstructure.elevatorStateIs(ElevatorStates.STOWED)
+        .whileTrue(new MoveElevatorToPosition(ElevatorConstants.kElevatorStowPosition));
   }
 }
