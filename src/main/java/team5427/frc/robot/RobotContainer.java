@@ -4,14 +4,33 @@
 
 package team5427.frc.robot;
 
+import org.ironmaple.simulation.SimulatedArena;
+import org.littletonrobotics.junction.Logger;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.util.PathPlannerLogging;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import team5427.frc.robot.Constants.DriverConstants;
 import team5427.frc.robot.io.DriverProfiles;
 import team5427.frc.robot.io.OperatorControls;
+import team5427.frc.robot.io.PilotingControls;
+import team5427.frc.robot.subsystems.Swerve.DrivingConstants;
+import team5427.frc.robot.subsystems.Swerve.SwerveSubsystem;
 import team5427.frc.robot.subsystems.elevator.ElevatorSubsystem;
+import team5427.frc.robot.subsystems.endeffector.EndEffectorSubsystem;
+import team5427.frc.robot.subsystems.intake.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,14 +54,19 @@ public class RobotContainer {
 
     switch (Constants.currentMode) {
       case REAL:
+        SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);
         ElevatorSubsystem.getInstance();
+        EndEffectorSubsystem.getInstance();
         break;
       case REPLAY:
+        SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);
         break;
       case SIM:
-        // SimulatedArena.getInstance()
-        //     .addDriveTrainSimulation(SwerveSubsystem.getInstance().getKDriveSimulation());
-        // SimulatedArena.getInstance().clearGamePieces();
+        SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);
+        SimulatedArena.getInstance()
+            .addDriveTrainSimulation(SwerveSubsystem.getInstance().getKDriveSimulation());
+        SimulatedArena.getInstance().clearGamePieces();
+        IntakeSubsystem.getInstance(SwerveSubsystem.getInstance()::getKDriveSimulation);
         break;
       default:
         break;
@@ -53,22 +77,22 @@ public class RobotContainer {
     //     () -> RobotPose.getInstance().getGyroHeading());
     // QuestNav.getInstance().setPose(new Pose2d(10 * Math.random(), 4, Rotation2d.kZero));
 
-    // AutoBuilder.configure(
-    //     RobotPose.getInstance()::getAdaptivePose,
-    //     RobotPose.getInstance()::resetAllPose,
-    //     SwerveSubsystem.getInstance()::getCurrentChassisSpeeds,
-    //     (speeds, driveFF) -> SwerveSubsystem.getInstance().setInputSpeeds(speeds, driveFF),
-    //     new PPHolonomicDriveController(
-    //         new PIDConstants(DrivingConstants.kTranslationalKp.get(), 0.0, 0.0),
-    //         new PIDConstants(DrivingConstants.kRotationKp.get(), 0.0, 0.0)),
-    //     Constants.config,
-    //     () -> {
-    //       return DriverStation.getAlliance().isEmpty()
-    //           && DriverStation.getAlliance().get() == Alliance.Red;
-    //     },
-    //     SwerveSubsystem.getInstance());
+    AutoBuilder.configure(
+        RobotPose.getInstance()::getAdaptivePose,
+        RobotPose.getInstance()::resetAllPose,
+        SwerveSubsystem.getInstance()::getCurrentChassisSpeeds,
+        (speeds, driveFF) -> SwerveSubsystem.getInstance().setInputSpeeds(speeds, driveFF),
+        new PPHolonomicDriveController(
+            new PIDConstants(DrivingConstants.kTranslationalKp.get(), 0.0, 0.0),
+            new PIDConstants(DrivingConstants.kRotationKp.get(), 0.0, 0.0)),
+        Constants.config,
+        () -> {
+          return DriverStation.getAlliance().isEmpty()
+              && DriverStation.getAlliance().get() == Alliance.Red;
+        },
+        SwerveSubsystem.getInstance());
 
-    // autoChooser();
+    autoChooser();
 
     buttonBindings();
     createEventTriggers();
@@ -76,10 +100,10 @@ public class RobotContainer {
   }
 
   private void buttonBindings() {
-    // new PilotingControls(
-    //     DriverProfiles.kSelectedDriverState.modeType.equals(DriverProfiles.DriverModeType.SINGLE)
-    //         ? new CommandXboxController(DriverConstants.kDriverJoystickPort)
-    //         : new CommandXboxController(DriverConstants.kDriverJoystickPort));
+    new PilotingControls(
+        DriverProfiles.kSelectedDriverState.modeType.equals(DriverProfiles.DriverModeType.SINGLE)
+            ? new CommandXboxController(DriverConstants.kDriverJoystickPort)
+            : new CommandXboxController(DriverConstants.kDriverJoystickPort));
     new OperatorControls(
         DriverProfiles.kSelectedDriverState.modeType.equals(DriverProfiles.DriverModeType.SINGLE)
             ? new CommandXboxController(DriverConstants.kDriverJoystickPort)
@@ -101,66 +125,64 @@ public class RobotContainer {
   public void createNamedCommands() {}
 
   public void resetSimulationField() {
-    // if (Constants.currentMode != Constants.Mode.SIM) return;
-    // Pose2d pose = new Pose2d(3, 3, Rotation2d.kZero);
+    if (Constants.currentMode != Constants.Mode.SIM) return;
+    Pose2d pose = new Pose2d(3, 3, Rotation2d.kZero);
 
-    // SwerveSubsystem.getInstance().getKDriveSimulation().setSimulationWorldPose(pose);
-    // RobotPose.getInstance().resetAllPose(pose);
-    // SwerveSubsystem.getInstance().resetGyro(Rotation2d.kZero);
-    // SimulatedArena.getInstance().resetFieldForAuto();
+    SwerveSubsystem.getInstance().getKDriveSimulation().setSimulationWorldPose(pose);
+    RobotPose.getInstance().resetAllPose(pose);
+    SwerveSubsystem.getInstance().resetGyro(Rotation2d.kZero);
+    SimulatedArena.getInstance().resetFieldForAuto();
   }
 
   public void updateSimulation() {
-    // if (Constants.currentMode != Constants.Mode.SIM) return;
+    if (Constants.currentMode != Constants.Mode.SIM) return;
 
-    // SimulatedArena.getInstance().simulationPeriodic();
-    // Logger.recordOutput(
-    //     "FieldSimulation/RobotPosition",
-    //     SwerveSubsystem.getInstance().getKDriveSimulation().getSimulatedDriveTrainPose());
-    // Logger.recordOutput(
-    //     "FieldSimulation/Coral", SimulatedArena.getInstance().getGamePiecesArrayByType("Coral"));
-    // Logger.recordOutput(
-    //     "FieldSimulation/Algae", SimulatedArena.getInstance().getGamePiecesArrayByType("Algae"));
+    SimulatedArena.getInstance().simulationPeriodic();
+    Logger.recordOutput(
+        "FieldSimulation/RobotPosition",
+        SwerveSubsystem.getInstance().getKDriveSimulation().getSimulatedDriveTrainPose());
+    Logger.recordOutput(
+        "FieldSimulation/Coral", SimulatedArena.getInstance().getGamePiecesArrayByType("Coral"));
   }
 
   public void autoChooser() {
-    // // Pathfinding.setPathfinder(new LocalADStarAK());
-    // PathPlannerLogging.setLogActivePathCallback(
-    //     (activePath) -> {
-    //       Logger.recordOutput(
-    //           "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
-    //     });
-    // PathPlannerLogging.setLogTargetPoseCallback(
-    //     (targetPose) -> {
-    //       Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
-    //     });
+    // Pathfinding.setPathfinder(new LocalADStarAK());
+    PathPlannerLogging.setLogActivePathCallback(
+        (activePath) -> {
+          Logger.recordOutput(
+              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+        });
+    PathPlannerLogging.setLogTargetPoseCallback(
+        (targetPose) -> {
+          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
+        });
 
-    // SendableChooser<Boolean> chooser = new SendableChooser<>();
-    // chooser.setDefaultOption("Not Flipped", false);
-    // chooser.addOption("Flipped", true);
+    SendableChooser<Boolean> chooser = new SendableChooser<>();
+    chooser.setDefaultOption("Not Flipped", false);
+    chooser.addOption("Flipped", true);
 
-    // SmartDashboard.putData(chooser);
-    // chooser.setDefaultOption("Not Flipped", false);
-    // chooser.onChange(
-    //     (Boolean flip) -> {
-    //       autoChooser =
-    //           AutoBuilder.buildAutoChooserWithOptionsModifier(
-    //               autoStream ->
-    //                   autoStream.map(
-    //                       auto -> {
-    //                         auto = new PathPlannerAuto(auto.getName(), flip);
-    //                         return auto;
-    //                       }));
-    //       SmartDashboard.putData("Auto Chooser", autoChooser);
-    //     });
+    SmartDashboard.putData(chooser);
+    chooser.setDefaultOption("Not Flipped", false);
+    chooser.onChange(
+        (Boolean flip) -> {
+          autoChooser =
+              AutoBuilder.buildAutoChooserWithOptionsModifier(
+                  autoStream ->
+                      autoStream.map(
+                          auto -> {
+                            auto = new PathPlannerAuto(auto.getName(), flip);
+                            return auto;
+                          }));
+          SmartDashboard.putData("Auto Chooser", autoChooser);
+        });
 
-    // autoChooser =
-    //     AutoBuilder.buildAutoChooserWithOptionsModifier(
-    //         autoStream ->
-    //             autoStream.map(
-    //                 auto -> {
-    //                   auto = new PathPlannerAuto(auto.getName(), chooser.getSelected());
-    //                   return auto;
-    //                 }));
+    autoChooser =
+        AutoBuilder.buildAutoChooserWithOptionsModifier(
+            autoStream ->
+                autoStream.map(
+                    auto -> {
+                      auto = new PathPlannerAuto(auto.getName(), chooser.getSelected());
+                      return auto;
+                    }));
   }
 }
