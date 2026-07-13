@@ -20,7 +20,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   @Setter private Distance elevatorSetpoint;
 
   public static ElevatorSubsystem getInstance() {
-    return (m_instance == null) ? new ElevatorSubsystem() : m_instance;
+    if (m_instance == null) {
+      m_instance = new ElevatorSubsystem();
+    }
+    return m_instance;
   }
 
   private ElevatorSubsystem() {

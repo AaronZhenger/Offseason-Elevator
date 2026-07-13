@@ -95,7 +95,7 @@ public class EndEffectorIOTalonFX implements EndEffectorIO {
         flywheelCurrent);
 
     BaseStatusSignal.setUpdateFrequencyForAll(
-        Constants.kMediumPriorityUpdateFrequency,
+        Constants.kLowPriorityUpdateFrequency,
         pivotLeaderAngularAcceleration,
         pivotFollowerAngularAcceleration,
         pivotLeaderVoltage,

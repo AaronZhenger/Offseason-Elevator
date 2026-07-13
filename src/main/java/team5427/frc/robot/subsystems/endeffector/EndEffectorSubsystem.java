@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import lombok.Getter;
 import lombok.Setter;
 import org.littletonrobotics.junction.Logger;
 import team5427.frc.robot.Constants;
@@ -19,11 +20,14 @@ public class EndEffectorSubsystem extends SubsystemBase {
 
   private static EndEffectorSubsystem m_instance;
 
-  @Setter private Rotation2d pivotSetpoint;
-  @Setter private LinearVelocity flywheelSetpoint;
+  @Getter @Setter private Rotation2d pivotSetpoint;
+  @Getter @Setter private LinearVelocity flywheelSetpoint;
 
   public static EndEffectorSubsystem getInstance() {
-    return (m_instance == null) ? new EndEffectorSubsystem() : m_instance;
+    if (m_instance == null) {
+      m_instance = new EndEffectorSubsystem();
+    }
+    return m_instance;
   }
 
   private EndEffectorSubsystem() {
