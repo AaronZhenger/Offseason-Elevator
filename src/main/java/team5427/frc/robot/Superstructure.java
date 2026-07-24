@@ -49,7 +49,7 @@ public final class Superstructure {
     DISABLED
   }
 
-  //Diffy States Enum
+  // Diffy States Enum
   public static enum DiffyStates {
     STOWED,
     STATION_INTAKING,

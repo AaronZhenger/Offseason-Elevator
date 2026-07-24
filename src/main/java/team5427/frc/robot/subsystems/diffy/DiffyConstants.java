@@ -21,7 +21,8 @@ public class DiffyConstants {
       new MotorConfiguration();
   public static final MotorConfiguration kFlywheelMotorConfiguration = new MotorConfiguration();
 
-  public static final ComplexGearRatio kPivotGearRatio = new ComplexGearRatio((14.0 / 36.0), (36.0 / 16.0), (16.0 / 46.0));
+  public static final ComplexGearRatio kPivotGearRatio =
+      new ComplexGearRatio((14.0 / 36.0), (36.0 / 16.0), (16.0 / 46.0));
   public static final ComplexGearRatio kFlywheelGearRatio = new ComplexGearRatio();
 
   public static final Rotation2d kAverageStowPosition = Rotation2d.kZero;
