@@ -15,6 +15,7 @@ import team5427.frc.robot.Constants.DriverConstants;
 import team5427.frc.robot.io.DriverProfiles;
 import team5427.frc.robot.io.OperatorControls;
 import team5427.frc.robot.subsystems.Swerve.SwerveSubsystem;
+import team5427.frc.robot.subsystems.diffy.DiffySubsystem;
 import team5427.frc.robot.subsystems.elevator.ElevatorSubsystem;
 import team5427.frc.robot.subsystems.intake.IntakeSubsystem;
 
@@ -30,19 +31,19 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    try {
-      Constants.config = RobotConfig.fromGUISettings();
-    } catch (Exception e) {
-      System.out.println("Robot Config not loading from GUI Settings");
-      e.printStackTrace();
-      return;
-    }
+    // try {
+    //   Constants.config = RobotConfig.fromGUISettings();
+    // } catch (Exception e) {
+    //   System.out.println("Robot Config not loading from GUI Settings");
+    //   e.printStackTrace();
+    //   return;
+    // }
 
     switch (Constants.currentMode) {
       case REAL:
         // SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);
         ElevatorSubsystem.getInstance();
-        // EndEffectorSubsystem.getInstance();
+        DiffySubsystem.getInstance();
         break;
       case REPLAY:
         SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);

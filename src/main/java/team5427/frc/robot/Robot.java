@@ -14,6 +14,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import team5427.frc.robot.subsystems.Swerve.DrivingConstants;
 import team5427.frc.robot.subsystems.Swerve.SwerveConstants;
+import team5427.frc.robot.subsystems.diffy.DiffyConstants;
 import team5427.frc.robot.subsystems.elevator.ElevatorConstants;
 import team5427.frc.robot.subsystems.intake.IntakeConstants;
 import team5427.lib.drivers.JoystickLogger;
@@ -85,6 +86,7 @@ public class Robot extends LoggedRobot {
     System.out.println(IntakeConstants.class);
     System.out.println(DrivingConstants.class);
     System.out.println(ElevatorConstants.class);
+    System.out.println(DiffyConstants.class);
     // loading a random LoggedTunableNumber
     System.out.println(DrivingConstants.kRotationKp);
     System.out.println(Superstructure.class);
@@ -102,7 +104,7 @@ public class Robot extends LoggedRobot {
 
     CommandScheduler.getInstance().run();
     VirtualSubsystem.periodicAll();
-    RobotPose.getInstance().log();
+    // RobotPose.getInstance().log();
     Superstructure.logStates();
     // QuestNav.getInstance().processHeartbeat();
     // QuestNav.getInstance().cleanupResponses();

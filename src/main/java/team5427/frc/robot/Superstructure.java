@@ -20,6 +20,9 @@ public final class Superstructure {
   private static ElevatorStates kSelectedElevatorState = ElevatorStates.STOWED;
   private static ElevatorStates kPreviousElevatorState = ElevatorStates.DISABLED;
 
+  private static DiffyStates kSelectedDiffyState = DiffyStates.STOWED;
+  private static DiffyStates kPreviousDiffyState = DiffyStates.STOWED;
+
   // Swerve States Enum
   public static enum SwerveStates {
     RAW_DRIVING,
@@ -46,6 +49,14 @@ public final class Superstructure {
     DISABLED
   }
 
+  //Diffy States Enum
+  public static enum DiffyStates {
+    STOWED,
+    STATION_INTAKING,
+    GROUND_INTAKING,
+    SCORING
+  }
+
   // Getter Methods
 
   public static synchronized SwerveStates getSelectedSwerveState() {
@@ -70,6 +81,14 @@ public final class Superstructure {
 
   public static synchronized ElevatorStates getPreviousElevatorState() {
     return kPreviousElevatorState;
+  }
+
+  public static synchronized DiffyStates getSelectedDiffyState() {
+    return kSelectedDiffyState;
+  }
+
+  public static synchronized DiffyStates getPreviousDiffyState() {
+    return kPreviousDiffyState;
   }
 
   // State Request Methods
@@ -120,6 +139,21 @@ public final class Superstructure {
     }
   }
 
+  /**
+   * Allows you to request a new Diffy State and if it is different than the current one, the
+   * current and previous state will be replaced accordingly.
+   *
+   * @param newState The DiffyState that you are requesting
+   */
+  public static synchronized void requestDiffyState(DiffyStates newState) {
+    if (kSelectedDiffyState != newState) {
+      kPreviousDiffyState = kSelectedDiffyState;
+      kSelectedDiffyState = newState;
+      Logger.recordOutput(dashboardKey + "/DiffyState", newState.toString());
+      Logger.recordOutput(dashboardKey + "/PreviousDiffyState", kPreviousDiffyState.toString());
+    }
+  }
+
   // Command factories return command that change state
   /**
    * Builds a {@link Command} that switches the swerve subsystem to the supplied state.
@@ -152,6 +186,17 @@ public final class Superstructure {
   public static synchronized Command setElevatorStateCommand(ElevatorStates state) {
     return Commands.runOnce(() -> requestElevatorState(state))
         .withName("SetElevatorState(" + state.toString() + ")");
+  }
+
+  /**
+   * Builds a {@link Command} that switches the diffy subsystem to the supplied state.
+   *
+   * @param state Desired {@link DiffyStates} target.
+   * @return One-shot command that applies the new state.
+   */
+  public static synchronized Command setDiffyStateCommand(DiffyStates state) {
+    return Commands.runOnce(() -> requestDiffyState(state))
+        .withName("SetDiffyState(" + state.toString() + ")");
   }
 
   // Trigger factory creates trigger for any state condition
@@ -236,6 +281,33 @@ public final class Superstructure {
         });
   }
 
+  /**
+   * Creates a trigger that is active when the current diffy state equals the supplied state.
+   *
+   * @param state State to compare against the currently selected diffy state.
+   * @return Trigger that reflects the state match.
+   */
+  public static synchronized Trigger diffyStateIs(DiffyStates state) {
+    return new Trigger(() -> kSelectedDiffyState == state);
+  }
+
+  /**
+   * Creates a trigger that is active when the current diffy state matches any of the supplied
+   * states.
+   *
+   * @param states Acceptable {@link DiffyStates} values.
+   * @return Trigger that fires while the current state is any of the provided values.
+   */
+  public static synchronized Trigger diffyStateIsAnyOf(DiffyStates... states) {
+    return new Trigger(
+        () -> {
+          for (DiffyStates state : states) {
+            if (kSelectedDiffyState == state) return true;
+          }
+          return false;
+        });
+  }
+
   // Transition Triggers detect state changes
 
   /**
@@ -298,6 +370,26 @@ public final class Superstructure {
     return new Trigger(() -> kPreviousElevatorState == state && kSelectedElevatorState != state);
   }
 
+  /**
+   * Trigger that becomes active the first cycle a new diffy state is selected.
+   *
+   * @param state Destination state to monitor.
+   * @return Trigger that detects the transition into the supplied state.
+   */
+  public static synchronized Trigger diffyStateChangedTo(DiffyStates state) {
+    return new Trigger(() -> kSelectedDiffyState == state && kPreviousDiffyState != state);
+  }
+
+  /**
+   * Trigger that becomes active when a previously selected diffy state is exited.
+   *
+   * @param state Source state to monitor.
+   * @return Trigger that detects the transition away from the supplied state.
+   */
+  public static synchronized Trigger diffyStateChangedFrom(DiffyStates state) {
+    return new Trigger(() -> kPreviousDiffyState == state && kSelectedDiffyState != state);
+  }
+
   // Compound - Combine multiple conditions
 
   /**
@@ -349,9 +441,11 @@ public final class Superstructure {
     Logger.recordOutput(dashboardKey + "/SwerveState", kSelectedSwerveState.toString());
     Logger.recordOutput(dashboardKey + "/IntakeState", kSelectedIntakeState.toString());
     Logger.recordOutput(dashboardKey + "/ElevatorState", kSelectedElevatorState.toString());
+    Logger.recordOutput(dashboardKey + "/DiffyState", kSelectedDiffyState.toString());
     Logger.recordOutput(dashboardKey + "/PreviousSwerveState", kPreviousSwerveState.toString());
     Logger.recordOutput(dashboardKey + "/PreviousIntakeState", kPreviousIntakeState.toString());
     Logger.recordOutput(dashboardKey + "/PreviousElevatorState", kPreviousElevatorState.toString());
+    Logger.recordOutput(dashboardKey + "/PreviousDiffyState", kPreviousDiffyState.toString());
   }
 
   // Static Trigger Constants
@@ -377,5 +471,12 @@ public final class Superstructure {
     public static final Trigger kDisabled = elevatorStateIs(ElevatorStates.DISABLED);
     public static final Trigger kSetpoint1 = elevatorStateIs(ElevatorStates.SETPOINT1);
     public static final Trigger kSetpoint2 = elevatorStateIs(ElevatorStates.SETPOINT2);
+  }
+
+  public static final class DiffyTriggers {
+    public static final Trigger kStowed = diffyStateIs(DiffyStates.STOWED);
+    public static final Trigger kStationIntaking = diffyStateIs(DiffyStates.STATION_INTAKING);
+    public static final Trigger kGroundIntaking = diffyStateIs(DiffyStates.GROUND_INTAKING);
+    public static final Trigger kScoring = diffyStateIs(DiffyStates.SCORING);
   }
 }
