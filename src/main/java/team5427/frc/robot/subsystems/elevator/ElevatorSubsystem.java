@@ -33,6 +33,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         io = new ElevatorIOTalonFX();
         break;
       case SIM:
+        io = new ElevatorIOTalonFX();
         break;
       default:
         break;
@@ -48,6 +49,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     Logger.processInputs("Elevator/Inputs", inputs);
     log();
+  }
+
+  public boolean atGoal() {
+    return Math.abs(inputs.leaderMotorDistance.minus(elevatorSetpoint).in(Meters)) <= 0.02;
   }
 
   private void log() {

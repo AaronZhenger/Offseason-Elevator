@@ -1,4 +1,4 @@
-package team5427.frc.robot.subsystems.endeffector;
+package team5427.frc.robot.subsystems.diffy;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -11,12 +11,14 @@ import team5427.lib.motors.MotorConfiguration.IdleState;
 import team5427.lib.motors.MotorConfiguration.MotorMode;
 import team5427.lib.motors.MotorUtil;
 
-public class EndEffectorConstants {
-  public static final CANDeviceId kPivotLeaderMotorID = new CANDeviceId(3);
-  public static final CANDeviceId kPivotFollowerMotorID = new CANDeviceId(4);
-  public static final CANDeviceId kFlywheelMotorID = new CANDeviceId(5);
+public class DiffyConstants {
+  public static final CANDeviceId kPivotLeaderMotorID = new CANDeviceId(18);
+  public static final CANDeviceId kPivotFollowerMotorID = new CANDeviceId(19);
+  public static final CANDeviceId kFlywheelMotorID = new CANDeviceId(20);
 
   public static final MotorConfiguration kPivotMotorConfiguration = new MotorConfiguration();
+  public static final MotorConfiguration kPivotFollowerMotorConfiguration =
+      new MotorConfiguration();
   public static final MotorConfiguration kFlywheelMotorConfiguration = new MotorConfiguration();
 
   public static final ComplexGearRatio kPivotGearRatio = new ComplexGearRatio();
@@ -38,20 +40,46 @@ public class EndEffectorConstants {
     kPivotMotorConfiguration.withFOC = true;
 
     kPivotMotorConfiguration.maxVelocity =
-        kPivotMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44_MaxRPM);
+        kPivotMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44FOC_MaxRPM);
     kPivotMotorConfiguration.maxAcceleration = kPivotMotorConfiguration.maxVelocity / 3.0;
 
-    kPivotMotorConfiguration.kP = 10.0;
+    kPivotMotorConfiguration.kP = 0.0;
     kPivotMotorConfiguration.kI = 0.0;
     kPivotMotorConfiguration.kD = 0.0;
 
     kPivotMotorConfiguration.kV = 0.0;
     kPivotMotorConfiguration.kA = 0.0;
     kPivotMotorConfiguration.kS = 0.0;
-    kPivotMotorConfiguration.kG = 1.0;
+    kPivotMotorConfiguration.kG = 0.0;
     kPivotMotorConfiguration.kFF = 0.0;
 
     kPivotMotorConfiguration.currentLimit = 60;
+  }
+
+  static {
+    kPivotFollowerMotorConfiguration.gearRatio = kPivotGearRatio;
+    kPivotFollowerMotorConfiguration.isArm = false;
+    kPivotFollowerMotorConfiguration.idleState = IdleState.kBrake;
+    kPivotFollowerMotorConfiguration.isInverted = true;
+    kPivotFollowerMotorConfiguration.mode = MotorMode.kServo;
+    kPivotFollowerMotorConfiguration.withFOC = true;
+
+    kPivotFollowerMotorConfiguration.maxVelocity =
+        kPivotFollowerMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44FOC_MaxRPM);
+    kPivotFollowerMotorConfiguration.maxAcceleration =
+        kPivotFollowerMotorConfiguration.maxVelocity / 3.0;
+
+    kPivotFollowerMotorConfiguration.kP = 0.0;
+    kPivotFollowerMotorConfiguration.kI = 0.0;
+    kPivotFollowerMotorConfiguration.kD = 0.0;
+
+    kPivotFollowerMotorConfiguration.kV = 0.0;
+    kPivotFollowerMotorConfiguration.kA = 0.0;
+    kPivotFollowerMotorConfiguration.kS = 0.0;
+    kPivotFollowerMotorConfiguration.kG = 0.0;
+    kPivotFollowerMotorConfiguration.kFF = 0.0;
+
+    kPivotFollowerMotorConfiguration.currentLimit = 60;
   }
 
   static {
@@ -63,7 +91,7 @@ public class EndEffectorConstants {
     kFlywheelMotorConfiguration.withFOC = false;
 
     kFlywheelMotorConfiguration.maxVelocity =
-        kFlywheelMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44_MaxRPM);
+        kFlywheelMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX60_MaxRPM);
     kFlywheelMotorConfiguration.maxAcceleration = kFlywheelMotorConfiguration.maxVelocity / 2.0;
 
     kFlywheelMotorConfiguration.kP = 10.0;

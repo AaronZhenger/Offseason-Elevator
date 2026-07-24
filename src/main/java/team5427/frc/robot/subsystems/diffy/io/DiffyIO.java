@@ -1,4 +1,4 @@
-package team5427.frc.robot.subsystems.endeffector.io;
+package team5427.frc.robot.subsystems.diffy.io;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -13,9 +13,9 @@ import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface EndEffectorIO {
+public interface DiffyIO {
   @AutoLog
-  public static class EndEffectorInputs {
+  public static class DiffyInputs {
     public Rotation2d pivotLeaderAngle = new Rotation2d();
     public AngularVelocity pivotLeaderAngularVelocity = RadiansPerSecond.of(0.0);
     public AngularAcceleration pivotLeaderAngularAcceleration = RadiansPerSecondPerSecond.of(0.0);
@@ -38,13 +38,19 @@ public interface EndEffectorIO {
     public Temperature flywheelTemperature = Celsius.of(0.0);
   }
 
-  public default void updateInputs(EndEffectorInputsAutoLogged inputs) {}
+  public default void updateInputs(DiffyInputsAutoLogged inputs) {}
 
-  public default void setPivotPosition(Rotation2d angle) {}
+  public default void setLeaderPivotPosition(Rotation2d angle) {}
 
-  public default void setPivotPosition(Angle angle) {}
+  public default void setLeaderPivotPosition(Angle angle) {}
 
-  public default void setPivotPosition(double degrees) {}
+  public default void setLeaderPivotPosition(double degrees) {}
+
+  public default void setFollowerPivotPosition(Rotation2d angle) {}
+
+  public default void setFollowerPivotPosition(Angle angle) {}
+
+  public default void setFollowerPivotPosition(double degrees) {}
 
   public default void setFlywheelVelocity(LinearVelocity velocity) {}
 

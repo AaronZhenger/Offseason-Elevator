@@ -30,8 +30,7 @@ public class MoveElevatorToPosition extends Command {
 
   @Override
   public boolean isFinished() {
-    // TODO Auto-generated method stub
-    return super.isFinished();
+    return elevator.atGoal();
   }
 
   @Override

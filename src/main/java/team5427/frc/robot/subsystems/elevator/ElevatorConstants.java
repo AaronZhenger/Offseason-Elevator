@@ -12,8 +12,8 @@ import team5427.lib.motors.MotorUtil;
 
 public class ElevatorConstants {
 
-  public static final CANDeviceId kLeaderMotorID = new CANDeviceId(1);
-  public static final CANDeviceId kFollowerMotorID = new CANDeviceId(2);
+  public static final CANDeviceId kLeaderMotorID = new CANDeviceId(16);
+  public static final CANDeviceId kFollowerMotorID = new CANDeviceId(17);
 
   public static final MotorConfiguration kElevatorMotorConfiguration = new MotorConfiguration();
 
@@ -33,17 +33,17 @@ public class ElevatorConstants {
     kElevatorMotorConfiguration.withFOC = true;
 
     kElevatorMotorConfiguration.maxVelocity =
-        kElevatorMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44_MaxRPM);
+        kElevatorMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX60FOC_MaxRPM);
     kElevatorMotorConfiguration.maxAcceleration = kElevatorMotorConfiguration.maxVelocity / 2.0;
 
     kElevatorMotorConfiguration.kP = 10.0;
     kElevatorMotorConfiguration.kI = 0.0;
     kElevatorMotorConfiguration.kD = 0.0;
 
-    kElevatorMotorConfiguration.kV = 0.0;
-    kElevatorMotorConfiguration.kA = 0.0;
+    kElevatorMotorConfiguration.kV = 4.58;
+    kElevatorMotorConfiguration.kA = 0.02;
     kElevatorMotorConfiguration.kS = 0.0;
-    kElevatorMotorConfiguration.kG = 1.0;
+    kElevatorMotorConfiguration.kG = 0.16;
     kElevatorMotorConfiguration.kFF = 0.0;
 
     kElevatorMotorConfiguration.currentLimit = 80;

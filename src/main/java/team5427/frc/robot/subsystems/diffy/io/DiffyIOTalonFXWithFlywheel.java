@@ -1,4 +1,4 @@
-package team5427.frc.robot.subsystems.endeffector.io;
+package team5427.frc.robot.subsystems.diffy.io;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -16,11 +16,11 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
 import team5427.frc.robot.Constants;
-import team5427.frc.robot.subsystems.endeffector.EndEffectorConstants;
+import team5427.frc.robot.subsystems.diffy.DiffyConstants;
 import team5427.lib.motors.MotorConfiguration;
 import team5427.lib.motors.SteelTalonFX;
 
-public class EndEffectorIOTalonFX implements EndEffectorIO {
+public class DiffyIOTalonFXWithFlywheel implements DiffyIO {
   private SteelTalonFX pivotLeaderMotor;
   private SteelTalonFX pivotFollowerMotor;
   private SteelTalonFX flywheelMotor;
@@ -46,21 +46,21 @@ public class EndEffectorIOTalonFX implements EndEffectorIO {
   private StatusSignal<Voltage> flywheelVoltage;
   private StatusSignal<Temperature> flywheelTemperature;
 
-  public EndEffectorIOTalonFX() {
-    pivotLeaderMotor = new SteelTalonFX(EndEffectorConstants.kPivotLeaderMotorID);
-    pivotFollowerMotor = new SteelTalonFX(EndEffectorConstants.kPivotFollowerMotorID);
-    flywheelMotor = new SteelTalonFX(EndEffectorConstants.kFlywheelMotorID);
+  public DiffyIOTalonFXWithFlywheel() {
+    pivotLeaderMotor = new SteelTalonFX(DiffyConstants.kPivotLeaderMotorID);
+    pivotFollowerMotor = new SteelTalonFX(DiffyConstants.kPivotFollowerMotorID);
+    flywheelMotor = new SteelTalonFX(DiffyConstants.kFlywheelMotorID);
 
-    pivotLeaderMotor.apply(EndEffectorConstants.kPivotMotorConfiguration);
-    pivotFollowerMotor.apply(new MotorConfiguration(EndEffectorConstants.kPivotMotorConfiguration));
-    flywheelMotor.apply(EndEffectorConstants.kFlywheelMotorConfiguration);
+    pivotLeaderMotor.apply(DiffyConstants.kPivotMotorConfiguration);
+    pivotFollowerMotor.apply(new MotorConfiguration(DiffyConstants.kPivotMotorConfiguration));
+    flywheelMotor.apply(DiffyConstants.kFlywheelMotorConfiguration);
 
     pivotFollowerMotor
         .getTalonFX()
         .setControl(
             new Follower(pivotLeaderMotor.getTalonFX().getDeviceID(), MotorAlignmentValue.Aligned));
 
-    pivotLeaderMotor.setEncoderPosition(EndEffectorConstants.kPivotStowPosition);
+    pivotLeaderMotor.setEncoderPosition(DiffyConstants.kPivotStowPosition);
 
     pivotLeaderAngle = pivotLeaderMotor.getTalonFX().getPosition();
     pivotLeaderAngularVelocity = pivotLeaderMotor.getTalonFX().getVelocity();
@@ -130,7 +130,7 @@ public class EndEffectorIOTalonFX implements EndEffectorIO {
   }
 
   @Override
-  public void updateInputs(EndEffectorInputsAutoLogged inputs) {
+  public void updateInputs(DiffyInputsAutoLogged inputs) {
     BaseStatusSignal.refreshAll(pivotLeaderAngle, pivotFollowerAngle, flywheelAngularVelocity);
 
     BaseStatusSignal.refreshAll(
@@ -174,20 +174,20 @@ public class EndEffectorIOTalonFX implements EndEffectorIO {
     inputs.flywheelTemperature = flywheelTemperature.getValue();
   }
 
-  @Override
-  public void setPivotPosition(Angle angle) {
-    pivotLeaderMotor.setSetpoint(new Rotation2d(angle));
-  }
+  // @Override
+  // public void setPivotPosition(Angle angle) {
+  //   pivotLeaderMotor.setSetpoint(new Rotation2d(angle));
+  // }
 
-  @Override
-  public void setPivotPosition(Rotation2d angle) {
-    pivotLeaderMotor.setSetpoint(angle);
-  }
+  // @Override
+  // public void setPivotPosition(Rotation2d angle) {
+  //   pivotLeaderMotor.setSetpoint(angle);
+  // }
 
-  @Override
-  public void setPivotPosition(double degrees) {
-    pivotLeaderMotor.setEncoderPosition(Rotation2d.fromDegrees(degrees));
-  }
+  // @Override
+  // public void setPivotPosition(double degrees) {
+  //   pivotLeaderMotor.setEncoderPosition(Rotation2d.fromDegrees(degrees));
+  // }
 
   @Override
   public void setFlywheelVelocity(LinearVelocity velocity) {

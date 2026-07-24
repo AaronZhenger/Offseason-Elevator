@@ -4,14 +4,9 @@
 
 package team5427.frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import org.ironmaple.simulation.SimulatedArena;
@@ -30,7 +25,7 @@ import team5427.frc.robot.subsystems.intake.IntakeSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  private SendableChooser<Command> autoChooser;
+  // private SendableChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -108,7 +103,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    // return autoChooser.getSelected();
+    return null;
   }
 
   public void createEventTriggers() {}
@@ -136,44 +132,44 @@ public class RobotContainer {
         "FieldSimulation/Coral", SimulatedArena.getInstance().getGamePiecesArrayByType("Coral"));
   }
 
-  public void autoChooser() {
-    // Pathfinding.setPathfinder(new LocalADStarAK());
-    PathPlannerLogging.setLogActivePathCallback(
-        (activePath) -> {
-          Logger.recordOutput(
-              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
-        });
-    PathPlannerLogging.setLogTargetPoseCallback(
-        (targetPose) -> {
-          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
-        });
+  // public void autoChooser() {
+  //   // Pathfinding.setPathfinder(new LocalADStarAK());
+  //   PathPlannerLogging.setLogActivePathCallback(
+  //       (activePath) -> {
+  //         Logger.recordOutput(
+  //             "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+  //       });
+  //   PathPlannerLogging.setLogTargetPoseCallback(
+  //       (targetPose) -> {
+  //         Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
+  //       });
 
-    SendableChooser<Boolean> chooser = new SendableChooser<>();
-    chooser.setDefaultOption("Not Flipped", false);
-    chooser.addOption("Flipped", true);
+  //   SendableChooser<Boolean> chooser = new SendableChooser<>();
+  //   chooser.setDefaultOption("Not Flipped", false);
+  //   chooser.addOption("Flipped", true);
 
-    SmartDashboard.putData(chooser);
-    chooser.setDefaultOption("Not Flipped", false);
-    chooser.onChange(
-        (Boolean flip) -> {
-          autoChooser =
-              AutoBuilder.buildAutoChooserWithOptionsModifier(
-                  autoStream ->
-                      autoStream.map(
-                          auto -> {
-                            auto = new PathPlannerAuto(auto.getName(), flip);
-                            return auto;
-                          }));
-          SmartDashboard.putData("Auto Chooser", autoChooser);
-        });
+  //   SmartDashboard.putData(chooser);
+  //   chooser.setDefaultOption("Not Flipped", false);
+  //   chooser.onChange(
+  //       (Boolean flip) -> {
+  //         autoChooser =
+  //             AutoBuilder.buildAutoChooserWithOptionsModifier(
+  //                 autoStream ->
+  //                     autoStream.map(
+  //                         auto -> {
+  //                           auto = new PathPlannerAuto(auto.getName(), flip);
+  //                           return auto;
+  //                         }));
+  //         SmartDashboard.putData("Auto Chooser", autoChooser);
+  //       });
 
-    autoChooser =
-        AutoBuilder.buildAutoChooserWithOptionsModifier(
-            autoStream ->
-                autoStream.map(
-                    auto -> {
-                      auto = new PathPlannerAuto(auto.getName(), chooser.getSelected());
-                      return auto;
-                    }));
-  }
+  //   autoChooser =
+  //       AutoBuilder.buildAutoChooserWithOptionsModifier(
+  //           autoStream ->
+  //               autoStream.map(
+  //                   auto -> {
+  //                     auto = new PathPlannerAuto(auto.getName(), chooser.getSelected());
+  //                     return auto;
+  //                   }));
+  // }
 }
