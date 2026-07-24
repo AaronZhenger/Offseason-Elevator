@@ -1,7 +1,5 @@
 package team5427.frc.robot.subsystems.diffy.io;
 
-import static edu.wpi.first.units.Units.*;
-
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.ParentDevice;
@@ -40,8 +38,8 @@ public class DiffyIOTalonFXBadFriction implements DiffyIO {
     pivotLeaderMotor.apply(DiffyConstants.kPivotMotorConfiguration);
     pivotFollowerMotor.apply(DiffyConstants.kPivotFollowerMotorConfiguration);
 
-    pivotLeaderMotor.setEncoderPosition(DiffyConstants.kPivotStowPosition);
-    pivotLeaderMotor.setEncoderPosition(DiffyConstants.kPivotStowPosition);
+    pivotLeaderMotor.setEncoderPosition(DiffyConstants.kAverageStowPosition);
+    pivotLeaderMotor.setEncoderPosition(DiffyConstants.kAverageStowPosition);
 
     pivotLeaderAngle = pivotLeaderMotor.getTalonFX().getPosition();
     pivotLeaderAngularVelocity = pivotLeaderMotor.getTalonFX().getVelocity();

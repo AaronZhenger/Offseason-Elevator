@@ -60,7 +60,7 @@ public class DiffyIOTalonFXWithFlywheel implements DiffyIO {
         .setControl(
             new Follower(pivotLeaderMotor.getTalonFX().getDeviceID(), MotorAlignmentValue.Aligned));
 
-    pivotLeaderMotor.setEncoderPosition(DiffyConstants.kPivotStowPosition);
+    pivotLeaderMotor.setEncoderPosition(DiffyConstants.kAverageStowPosition);
 
     pivotLeaderAngle = pivotLeaderMotor.getTalonFX().getPosition();
     pivotLeaderAngularVelocity = pivotLeaderMotor.getTalonFX().getVelocity();

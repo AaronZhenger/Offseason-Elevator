@@ -21,11 +21,16 @@ public class DiffyConstants {
       new MotorConfiguration();
   public static final MotorConfiguration kFlywheelMotorConfiguration = new MotorConfiguration();
 
-  public static final ComplexGearRatio kPivotGearRatio = new ComplexGearRatio();
+  public static final ComplexGearRatio kPivotGearRatio = new ComplexGearRatio((14.0 / 36.0), (36.0 / 16.0), (16.0 / 46.0));
   public static final ComplexGearRatio kFlywheelGearRatio = new ComplexGearRatio();
 
-  public static final Rotation2d kPivotStowPosition = Rotation2d.kZero;
-  public static final Rotation2d kPivotFlippedPosition = Rotation2d.k180deg;
+  public static final Rotation2d kAverageStowPosition = Rotation2d.kZero;
+  public static final Rotation2d kAverageGroundPosition = Rotation2d.kCCW_90deg;
+  public static final Rotation2d kAverageStationPosition = new Rotation2d(Degrees.of(45));
+  public static final Rotation2d kAverageScoringPosition = new Rotation2d(Degrees.of(-60));
+
+  public static final Rotation2d kDifferenceStandardPosition = Rotation2d.kZero;
+  public static final Rotation2d kDifferenceHorizontalPosition = Rotation2d.kCW_90deg;
 
   public static final LinearVelocity kFlywheelStowVelocity = MetersPerSecond.of(-0.5);
   public static final LinearVelocity kFlywheelIntakeVelocity = MetersPerSecond.of(-1.5);
@@ -33,7 +38,7 @@ public class DiffyConstants {
 
   static {
     kPivotMotorConfiguration.gearRatio = kPivotGearRatio;
-    kPivotMotorConfiguration.isArm = false;
+    kPivotMotorConfiguration.isArm = true;
     kPivotMotorConfiguration.idleState = IdleState.kBrake;
     kPivotMotorConfiguration.isInverted = false;
     kPivotMotorConfiguration.mode = MotorMode.kServo;
@@ -58,7 +63,7 @@ public class DiffyConstants {
 
   static {
     kPivotFollowerMotorConfiguration.gearRatio = kPivotGearRatio;
-    kPivotFollowerMotorConfiguration.isArm = false;
+    kPivotFollowerMotorConfiguration.isArm = true;
     kPivotFollowerMotorConfiguration.idleState = IdleState.kBrake;
     kPivotFollowerMotorConfiguration.isInverted = true;
     kPivotFollowerMotorConfiguration.mode = MotorMode.kServo;

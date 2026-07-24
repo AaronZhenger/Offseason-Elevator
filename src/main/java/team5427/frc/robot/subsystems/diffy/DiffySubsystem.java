@@ -42,8 +42,8 @@ public class DiffySubsystem extends SubsystemBase {
       default:
         break;
     }
-    averageSetpoint = DiffyConstants.kPivotStowPosition;
-    differenceSetpoint = DiffyConstants.kPivotStowPosition;
+    averageSetpoint = DiffyConstants.kAverageStowPosition;
+    differenceSetpoint = DiffyConstants.kDifferenceStandardPosition;
     flywheelSetpoint = DiffyConstants.kFlywheelStowVelocity;
   }
 
@@ -56,7 +56,7 @@ public class DiffySubsystem extends SubsystemBase {
     io.setFlywheelVelocity(flywheelSetpoint);
 
     Logger.processInputs("Diffy/Inputs", inputs);
-    log();
+    logDiffy();
   }
 
   public boolean pivotAtGoal() {
@@ -70,16 +70,27 @@ public class DiffySubsystem extends SubsystemBase {
             <= 4.0;
   }
 
-  private void log() {
-    Logger.recordOutput("Diffy/Pivot/PivotPosition", inputs.pivotLeaderAngle.getRadians());
+  private void logDiffy() {
+    Logger.recordOutput("Diffy/Leader/PivotPosition", inputs.pivotLeaderAngle.getRadians());
     Logger.recordOutput(
-        "Diffy/Pivot/PivotVelocity", inputs.pivotLeaderAngularVelocity.in(RadiansPerSecond));
+        "Diffy/Leader/PivotVelocity", inputs.pivotLeaderAngularVelocity.in(RadiansPerSecond));
     Logger.recordOutput(
-        "Diffy/Pivot/PivotAcceleration",
+        "Diffy/Leader/PivotAcceleration",
         inputs.pivotLeaderAngularAcceleration.in(RadiansPerSecondPerSecond));
-    Logger.recordOutput("Diffy/Pivot/PivotCurrent", inputs.pivotLeaderCurrent.in(Amps));
-    Logger.recordOutput("Diffy/Pivot/PivotVoltage", inputs.pivotLeaderVoltage.in(Volts));
+    Logger.recordOutput("Diffy/Leader/PivotCurrent", inputs.pivotLeaderCurrent.in(Amps));
+    Logger.recordOutput("Diffy/Leader/PivotVoltage", inputs.pivotLeaderVoltage.in(Volts));
 
+    Logger.recordOutput("Diffy/Follower/PivotPosition", inputs.pivotFollowerAngle.getRadians());
+    Logger.recordOutput(
+        "Diffy/Follower/PivotVelocity", inputs.pivotFollowerAngularVelocity.in(RadiansPerSecond));
+    Logger.recordOutput(
+        "Diffy/Follower/PivotAcceleration",
+        inputs.pivotFollowerAngularAcceleration.in(RadiansPerSecondPerSecond));
+    Logger.recordOutput("Diffy/Follower/PivotCurrent", inputs.pivotFollowerCurrent.in(Amps));
+    Logger.recordOutput("Diffy/Follower/PivotVoltage", inputs.pivotFollowerVoltage.in(Volts));
+  }
+
+  private void logFlywheel() {
     Logger.recordOutput(
         "Diffy/Flywheel/FlywheelLinearVelocity", inputs.flywheelLinearVelocity.in(MetersPerSecond));
     Logger.recordOutput(
