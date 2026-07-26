@@ -36,14 +36,14 @@ public class ElevatorConstants {
         kElevatorMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX60FOC_MaxRPM);
     kElevatorMotorConfiguration.maxAcceleration = kElevatorMotorConfiguration.maxVelocity / 2.0;
 
-    kElevatorMotorConfiguration.kP = 0.0;
+    kElevatorMotorConfiguration.kP = 0.07;
     kElevatorMotorConfiguration.kI = 0.0;
     kElevatorMotorConfiguration.kD = 0.0;
 
-    kElevatorMotorConfiguration.kV = 0.0;
+    kElevatorMotorConfiguration.kV = 0.03;
     kElevatorMotorConfiguration.kA = 0.0;
     kElevatorMotorConfiguration.kS = 0.0;
-    kElevatorMotorConfiguration.kG = 0.26 / MotorUtil.kKrakenX60_ResistanceOhms;
+    kElevatorMotorConfiguration.kG = 0.245;
     kElevatorMotorConfiguration.kFF = 0.0;
 
     kElevatorMotorConfiguration.currentLimit = 80;

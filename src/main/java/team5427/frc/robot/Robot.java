@@ -16,7 +16,6 @@ import team5427.frc.robot.subsystems.Swerve.DrivingConstants;
 import team5427.frc.robot.subsystems.Swerve.SwerveConstants;
 import team5427.frc.robot.subsystems.diffy.DiffyConstants;
 import team5427.frc.robot.subsystems.elevator.ElevatorConstants;
-import team5427.frc.robot.subsystems.intake.IntakeConstants;
 import team5427.lib.drivers.JoystickLogger;
 import team5427.lib.drivers.VirtualSubsystem;
 import team5427.lib.kinematics.shooter.projectiles.parabolic.AdjustedParabolicThread;
@@ -83,7 +82,6 @@ public class Robot extends LoggedRobot {
 
   private void loadConstants() {
     System.out.println(SwerveConstants.class);
-    System.out.println(IntakeConstants.class);
     System.out.println(DrivingConstants.class);
     System.out.println(ElevatorConstants.class);
     System.out.println(DiffyConstants.class);

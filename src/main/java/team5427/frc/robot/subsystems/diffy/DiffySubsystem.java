@@ -55,7 +55,6 @@ public class DiffySubsystem extends SubsystemBase {
     io.setFollowerPivotPosition(averageSetpoint.minus(differenceSetpoint));
     io.setFlywheelVelocity(flywheelSetpoint);
 
-    Logger.processInputs("Diffy/Inputs", inputs);
     logDiffy();
   }
 

@@ -49,17 +49,17 @@ public class DiffyConstants {
         kPivotMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44FOC_MaxRPM);
     kPivotMotorConfiguration.maxAcceleration = kPivotMotorConfiguration.maxVelocity / 3.0;
 
-    kPivotMotorConfiguration.kP = 0.0;
+    kPivotMotorConfiguration.kP = 1.7;
     kPivotMotorConfiguration.kI = 0.0;
     kPivotMotorConfiguration.kD = 0.0;
 
-    kPivotMotorConfiguration.kV = 0.0;
+    kPivotMotorConfiguration.kV = 0.17;
     kPivotMotorConfiguration.kA = 0.0;
-    kPivotMotorConfiguration.kS = 0.0;
+    kPivotMotorConfiguration.kS = 0.1;
     kPivotMotorConfiguration.kG = 0.0;
     kPivotMotorConfiguration.kFF = 0.0;
 
-    kPivotMotorConfiguration.currentLimit = 60;
+    kPivotMotorConfiguration.currentLimit = 70;
   }
 
   static {
@@ -75,17 +75,17 @@ public class DiffyConstants {
     kPivotFollowerMotorConfiguration.maxAcceleration =
         kPivotFollowerMotorConfiguration.maxVelocity / 3.0;
 
-    kPivotFollowerMotorConfiguration.kP = 0.0;
+    kPivotFollowerMotorConfiguration.kP = 1.7;
     kPivotFollowerMotorConfiguration.kI = 0.0;
     kPivotFollowerMotorConfiguration.kD = 0.0;
 
-    kPivotFollowerMotorConfiguration.kV = 0.0;
+    kPivotFollowerMotorConfiguration.kV = 0.17;
     kPivotFollowerMotorConfiguration.kA = 0.0;
-    kPivotFollowerMotorConfiguration.kS = 0.0;
+    kPivotFollowerMotorConfiguration.kS = 0.1;
     kPivotFollowerMotorConfiguration.kG = 0.0;
     kPivotFollowerMotorConfiguration.kFF = 0.0;
 
-    kPivotFollowerMotorConfiguration.currentLimit = 60;
+    kPivotFollowerMotorConfiguration.currentLimit = 70;
   }
 
   static {

@@ -16,7 +16,6 @@ import team5427.frc.robot.io.OperatorControls;
 import team5427.frc.robot.subsystems.Swerve.SwerveSubsystem;
 import team5427.frc.robot.subsystems.diffy.DiffySubsystem;
 import team5427.frc.robot.subsystems.elevator.ElevatorSubsystem;
-import team5427.frc.robot.subsystems.intake.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,7 +51,6 @@ public class RobotContainer {
         SimulatedArena.getInstance()
             .addDriveTrainSimulation(SwerveSubsystem.getInstance().getKDriveSimulation());
         SimulatedArena.getInstance().clearGamePieces();
-        IntakeSubsystem.getInstance(SwerveSubsystem.getInstance()::getKDriveSimulation);
         break;
       default:
         break;

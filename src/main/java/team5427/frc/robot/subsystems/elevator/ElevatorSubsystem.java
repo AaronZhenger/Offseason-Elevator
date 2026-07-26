@@ -47,7 +47,6 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     io.setElevatorPosition(elevatorSetpoint);
 
-    Logger.processInputs("Elevator/Inputs", inputs);
     log();
   }
 
