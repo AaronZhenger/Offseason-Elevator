@@ -15,12 +15,12 @@ import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.units.measure.Voltage;
 import team5427.frc.robot.Constants;
 import team5427.frc.robot.subsystems.elevator.ElevatorConstants;
+import team5427.lib.motors.MagicSteelTalonFX;
 import team5427.lib.motors.MotorConfiguration;
-import team5427.lib.motors.SteelTalonFX;
 
-public class ElevatorIOTalonFX implements ElevatorIO {
-  private SteelTalonFX leaderMotor;
-  private SteelTalonFX followerMotor;
+public class ElevatorIOMagicTalonFX implements ElevatorIO {
+  private MagicSteelTalonFX leaderMotor;
+  private MagicSteelTalonFX followerMotor;
 
   private StatusSignal<Angle> leaderMotorAngle;
   private StatusSignal<AngularVelocity> leaderMotorAngularVelocity;
@@ -36,9 +36,9 @@ public class ElevatorIOTalonFX implements ElevatorIO {
   private StatusSignal<Current> followerMotorCurrent;
   private StatusSignal<Voltage> followerMotorVoltage;
 
-  public ElevatorIOTalonFX() {
-    leaderMotor = new SteelTalonFX(ElevatorConstants.kLeaderMotorID);
-    followerMotor = new SteelTalonFX(ElevatorConstants.kFollowerMotorID);
+  public ElevatorIOMagicTalonFX() {
+    leaderMotor = new MagicSteelTalonFX(ElevatorConstants.kLeaderMotorID);
+    followerMotor = new MagicSteelTalonFX(ElevatorConstants.kFollowerMotorID);
 
     leaderMotor.apply(ElevatorConstants.kElevatorMotorConfiguration);
     followerMotor.apply(new MotorConfiguration(ElevatorConstants.kElevatorMotorConfiguration));

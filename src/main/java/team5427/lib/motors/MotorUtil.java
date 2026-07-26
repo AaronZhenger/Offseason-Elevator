@@ -11,4 +11,6 @@ public class MotorUtil {
   public static final double kZeroVoltage = 0.5;
   public static final double kKrakenX44_ResistanceOhms = 0.043;
   public static final double kKrakenX60_ResistanceOhms = 0.032;
+  public static final double kKrakenX44_Back_EMF_Constant = 0.096;
+  public static final double kKrakenX60_Back_EMF_Constant = 0.12;
 }

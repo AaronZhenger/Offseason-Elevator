@@ -44,6 +44,7 @@ public class DiffyConstants {
     kPivotMotorConfiguration.isInverted = false;
     kPivotMotorConfiguration.mode = MotorMode.kServo;
     kPivotMotorConfiguration.withFOC = true;
+    kPivotMotorConfiguration.useTorqueCurrentFOC = false;
 
     kPivotMotorConfiguration.maxVelocity =
         kPivotMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44FOC_MaxRPM);
@@ -69,6 +70,7 @@ public class DiffyConstants {
     kPivotFollowerMotorConfiguration.isInverted = true;
     kPivotFollowerMotorConfiguration.mode = MotorMode.kServo;
     kPivotFollowerMotorConfiguration.withFOC = true;
+    kPivotMotorConfiguration.useTorqueCurrentFOC = false;
 
     kPivotFollowerMotorConfiguration.maxVelocity =
         kPivotFollowerMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX44FOC_MaxRPM);

@@ -31,6 +31,7 @@ public class ElevatorConstants {
     kElevatorMotorConfiguration.isInverted = false;
     kElevatorMotorConfiguration.mode = MotorMode.kLinear;
     kElevatorMotorConfiguration.withFOC = true;
+    kElevatorMotorConfiguration.useTorqueCurrentFOC = false;
 
     kElevatorMotorConfiguration.maxVelocity =
         kElevatorMotorConfiguration.getStandardMaxVelocity(MotorUtil.kKrakenX60FOC_MaxRPM);
