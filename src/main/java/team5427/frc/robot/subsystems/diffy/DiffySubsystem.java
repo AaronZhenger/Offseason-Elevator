@@ -38,6 +38,7 @@ public class DiffySubsystem extends SubsystemBase {
         io = new DiffyIOTalonFXBadFriction();
         break;
       case SIM:
+        io = new DiffyIOTalonFXBadFriction();
         break;
       default:
         break;

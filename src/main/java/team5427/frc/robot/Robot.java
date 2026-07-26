@@ -81,8 +81,8 @@ public class Robot extends LoggedRobot {
   }
 
   private void loadConstants() {
-    System.out.println(SwerveConstants.class);
-    System.out.println(DrivingConstants.class);
+    // System.out.println(SwerveConstants.class);
+    // System.out.println(DrivingConstants.class);
     System.out.println(ElevatorConstants.class);
     System.out.println(DiffyConstants.class);
     // loading a random LoggedTunableNumber
@@ -138,12 +138,12 @@ public class Robot extends LoggedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    //   CommandScheduler.getInstance().schedule(m_autonomousCommand);
-    // }
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      CommandScheduler.getInstance().schedule(m_autonomousCommand);
+    }
     System.out.println("Switched to Auton");
   }
 
@@ -179,12 +179,12 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is first started up. */
   @Override
   public void simulationInit() {
-    m_robotContainer.resetSimulationField();
+    // m_robotContainer.resetSimulationField();
   }
 
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {
-    m_robotContainer.updateSimulation();
+    // m_robotContainer.updateSimulation();
   }
 }

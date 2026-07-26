@@ -47,10 +47,10 @@ public class RobotContainer {
         SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);
         break;
       case SIM:
-        SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);
-        SimulatedArena.getInstance()
-            .addDriveTrainSimulation(SwerveSubsystem.getInstance().getKDriveSimulation());
-        SimulatedArena.getInstance().clearGamePieces();
+        // SwerveSubsystem.getInstance(RobotPose.getInstance()::addOdometryMeasurement);
+        // SimulatedArena.getInstance()
+            // .addDriveTrainSimulation(SwerveSubsystem.getInstance().getKDriveSimulation());
+        // SimulatedArena.getInstance().clearGamePieces();
         break;
       default:
         break;
