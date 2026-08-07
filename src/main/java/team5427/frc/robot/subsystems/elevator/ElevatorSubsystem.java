@@ -38,7 +38,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       default:
         break;
     }
-    elevatorSetpoint = ElevatorConstants.kElevatorStowPosition;
+    elevatorSetpoint = ElevatorConstants.kElevatorZeroPosition;
   }
 
   @Override
@@ -55,6 +55,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   private void log() {
+    Logger.recordOutput("Elevator/TargetPosition", elevatorSetpoint.in(Meters));
     Logger.recordOutput("Elevator/LinearPosition", inputs.leaderMotorDistance.in(Meters));
     Logger.recordOutput(
         "Elevator/LinearVelocity", inputs.leaderMotorLinearVelocity.in(MetersPerSecond));

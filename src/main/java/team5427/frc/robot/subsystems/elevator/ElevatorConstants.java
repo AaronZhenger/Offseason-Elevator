@@ -20,9 +20,10 @@ public class ElevatorConstants {
   public static final ComplexGearRatio kGearRatio =
       new ComplexGearRatio((14.0 / 72.0), (1.0 / (Inches.of(1.75).in(Meters) * Math.PI)));
 
-  public static final Distance kElevatorSetpoint1 = Inches.of(15);
+  public static final Distance kElevatorSetpoint1 = Inches.of(20);
   public static final Distance kElevatorSetpoint2 = Inches.of(45);
-  public static final Distance kElevatorStowPosition = Meters.of(0.0);
+  public static final Distance kElevatorStowPosition = Inches.of(5);
+  public static final Distance kElevatorZeroPosition = Inches.of(0);
 
   static {
     kElevatorMotorConfiguration.gearRatio = kGearRatio;
